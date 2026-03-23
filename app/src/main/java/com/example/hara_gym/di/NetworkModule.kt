@@ -21,7 +21,8 @@ import kotlinx.coroutines.runBlocking
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
-    private const val BASE_URL = "http://172.25.198.11:8000/" // Default for emulator. Change to your backend URL.
+//    private const val BASE_URL = "http://172.25.198.11:8000/" // Default for emulator. Change to your backend URL.
+    private const val BASE_URL = "https://akshayduggirala09.pythonanywhere.com/" // Default for emulator. Change to your backend URL.
 
     @Provides
     @Singleton
