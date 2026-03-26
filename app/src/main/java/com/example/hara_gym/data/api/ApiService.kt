@@ -11,6 +11,9 @@ interface ApiService {
     @POST("auth/login")
     suspend fun login(@Body body: LoginRequest): Response<LoginResponse>
 
+    @GET("clients/my-plans")
+    suspend fun getMyPlans(): Response<MyPlansResponse>
+
     @GET("workouts/my-plan")
     suspend fun getMyWorkoutPlan(): Response<WorkoutPlanDto>
 

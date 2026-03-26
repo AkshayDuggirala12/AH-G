@@ -16,8 +16,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.hara_gym.viewmodel.DietUiState
-import com.example.hara_gym.viewmodel.DietViewModel
+import com.example.hara_gym.ui.viewmodel.DietUiState
+import com.example.hara_gym.ui.viewmodel.DietViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -135,7 +135,7 @@ fun DietPlanScreen(
                                         
                                         meal.notes?.let {
                                             Spacer(modifier = Modifier.height(12.dp))
-                                            Divider(color = MaterialTheme.colorScheme.outlineVariant)
+                                            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
                                             Spacer(modifier = Modifier.height(12.dp))
                                             Text(
                                                 text = "NOTES", 

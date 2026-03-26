@@ -1,4 +1,4 @@
-package com.example.hara_gym.viewmodel
+package com.example.hara_gym.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

@@ -13,6 +13,8 @@ import androidx.compose.material.icons.filled.ShowChart
 import androidx.compose.material.icons.filled.Upcoming
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -22,7 +24,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.hara_gym.viewmodel.AuthViewModel
+import com.example.hara_gym.ui.viewmodel.AuthViewModel
+import com.example.hara_gym.ui.viewmodel.ClientUiState
+import com.example.hara_gym.ui.viewmodel.ClientViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -31,8 +35,11 @@ fun HomeScreen(
     onNavigateToDiet: () -> Unit,
     onNavigateToProgress: () -> Unit,
     onNavigateToProfile: () -> Unit,
-    authViewModel: AuthViewModel = hiltViewModel()
+    authViewModel: AuthViewModel = hiltViewModel(),
+    clientViewModel: ClientViewModel = hiltViewModel()
 ) {
+    val clientState by clientViewModel.uiState.collectAsState()
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -86,7 +93,11 @@ fun HomeScreen(
             item {
                 HomeCard(
                     title = "WORKOUT PLAN",
-                    subtitle = "View your assigned routine",
+                    subtitle = when (val state = clientState) {
+                        is ClientUiState.Success -> state.plans.workoutPlan?.name ?: "No active workout plan"
+                        is ClientUiState.Loading -> "Loading plan..."
+                        else -> "View your assigned routine"
+                    },
                     icon = Icons.Default.Upcoming,
                     onClick = onNavigateToWorkout,
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -97,7 +108,11 @@ fun HomeScreen(
             item {
                 HomeCard(
                     title = "DIET PLAN",
-                    subtitle = "Fuel your body correctly",
+                    subtitle = when (val state = clientState) {
+                        is ClientUiState.Success -> state.plans.dietPlan?.name ?: "No active diet plan"
+                        is ClientUiState.Loading -> "Loading plan..."
+                        else -> "Fuel your body correctly"
+                    },
                     icon = Icons.Default.Restaurant,
                     onClick = onNavigateToDiet
                 )

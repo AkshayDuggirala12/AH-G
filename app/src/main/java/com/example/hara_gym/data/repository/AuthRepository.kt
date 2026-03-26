@@ -22,7 +22,7 @@ class AuthRepository @Inject constructor(
     suspend fun login(request: LoginRequest): Response<LoginResponse> {
         val response = apiService.login(request)
         if (response.isSuccessful) {
-            response.body()?.access_token?.let { token ->
+            response.body()?.accessToken?.let { token ->
                 tokenManager.saveToken(token)
             }
         }

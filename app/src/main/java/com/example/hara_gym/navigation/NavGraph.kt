@@ -13,7 +13,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.hara_gym.ui.screens.*
-import com.example.hara_gym.viewmodel.*
+import com.example.hara_gym.ui.viewmodel.*
 
 @Composable
 fun NavGraph(navController: NavHostController) {

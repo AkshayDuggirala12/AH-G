@@ -17,8 +17,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.hara_gym.viewmodel.WorkoutUiState
-import com.example.hara_gym.viewmodel.WorkoutViewModel
+import com.example.hara_gym.ui.viewmodel.WorkoutUiState
+import com.example.hara_gym.ui.viewmodel.WorkoutViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

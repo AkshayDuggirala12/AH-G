@@ -13,8 +13,8 @@ data class WorkoutDayDto(
     val id: Int,
     @SerializedName("day_name") val dayName: String,
     val title: String,
-    val description: String,
-    @SerializedName("video_url") val videoUrl: String,
+    val description: String?,
+    @SerializedName("video_url") val videoUrl: String?,
     val exercises: List<ExerciseDto>
 )
 
