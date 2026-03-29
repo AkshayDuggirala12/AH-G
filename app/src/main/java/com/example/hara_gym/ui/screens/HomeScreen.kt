@@ -5,6 +5,7 @@ import android.view.View
 import androidx.compose.runtime.*
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.hara_gym.R
 import com.example.hara_gym.databinding.LayoutHomeBinding
 import com.example.hara_gym.ui.viewmodel.ClientUiState
 import com.example.hara_gym.ui.viewmodel.ClientViewModel
@@ -20,25 +21,26 @@ fun HomeScreen(
 ) {
     val clientState by clientViewModel.uiState.collectAsState()
 
-    // --- UI INFLATION AND LOGIC ---
     AndroidView(
         factory = { context ->
             LayoutHomeBinding.inflate(LayoutInflater.from(context)).apply {
-                // NAVIGATION ACTIONS
+                toolbar.setOnMenuItemClickListener { menuItem ->
+                    when (menuItem.itemId) {
+                        R.id.action_profile -> {
+                            onNavigateToProfile()
+                            true
+                        }
+                        else -> false
+                    }
+                }
+                
                 cardWorkout.setOnClickListener { onNavigateToWorkout() }
                 cardDiet.setOnClickListener { onNavigateToDiet() }
-                
-                // Note: The menu item 'action_profile' was not found in XML.
-                // If you want to handle profile navigation, ensure the menu is inflated
-                // or use a different UI element.
-                
-                // This is a custom action for when no plan is found
                 btnRequestAccess.setOnClickListener { onNavigateToAccessRequest() }
             }.root
         },
         update = { view ->
             val binding = LayoutHomeBinding.bind(view)
-            // --- API STATE TO UI MAPPING ---
             when (val state = clientState) {
                 is ClientUiState.Loading -> {
                     binding.loadingIndicator.visibility = View.VISIBLE
@@ -69,7 +71,6 @@ fun HomeScreen(
                 }
                 is ClientUiState.Error -> {
                     binding.loadingIndicator.visibility = View.GONE
-                    // Error handling could show a Toast or Snackbar here
                 }
             }
         }

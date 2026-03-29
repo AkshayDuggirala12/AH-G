@@ -7,14 +7,18 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:navigationIcon="@drawable/ic_arrow_back"
-            app:title="Workout Day" />
+            app:title="MONDAY"
+            app:titleCentered="false"
+            app:titleTextAppearance="@style/TextAppearance.Material3.TitleLarge"
+            app:titleTextColor="?attr/colorOnSurface" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -31,8 +35,9 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="?attr/colorPrimaryContainer"
-                app:cardCornerRadius="16dp">
+                app:cardBackgroundColor="#EADDFF"
+                app:cardCornerRadius="16dp"
+                app:strokeWidth="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -44,15 +49,43 @@
                         android:id="@+id/textViewDayTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="Chest + Triceps + Abs"
+                        android:textColor="#21005D"
                         android:textSize="22sp"
-                        android:textStyle="bold"
-                        tools:text="Day Title" />
+                        android:textStyle="bold" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="DAILY COMPLETION"
+                            android:textColor="#21005D"
+                            android:textSize="12sp"
+                            android:textStyle="bold"
+                            android:alpha="0.7" />
+
+                        <TextView
+                            android:id="@+id/textViewProgressPercentage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:text="0%"
+                            android:textColor="#21005D"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+                    </RelativeLayout>
 
                     <com.google.android.material.progressindicator.LinearProgressIndicator
                         android:id="@+id/progressIndicator"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="8dp"
+                        app:indicatorColor="#6750A4"
+                        app:trackColor="#E8DEF8"
                         app:trackCornerRadius="8dp"
                         app:trackThickness="10dp" />
 
@@ -60,9 +93,11 @@
                         android:id="@+id/textViewProgressStatus"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="12dp"
+                        android:textColor="#21005D"
                         android:textSize="13sp"
-                        tools:text="0 of 0 exercises completed" />
+                        android:textStyle="normal"
+                        tools:text="0 of 8 exercises completed" />
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -73,6 +108,7 @@
                 android:layout_marginTop="24dp"
                 android:letterSpacing="0.1"
                 android:text="EXERCISES"
+                android:textColor="?attr/colorOnSurface"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
