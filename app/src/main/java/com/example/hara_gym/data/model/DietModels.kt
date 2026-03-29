@@ -14,6 +14,6 @@ data class DietPlanDto(
     val id: Int,
     val name: String,
     val description: String?,
-    val is_active: Boolean,
+    @SerializedName("is_active") val isActive: Boolean,
     val meals: List<DietMealDto>
 )

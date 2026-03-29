@@ -59,7 +59,13 @@ fun NavGraph(navController: NavHostController) {
                         onNavigateToWorkout = { navController.navigate(Screen.WorkoutPlan.route) },
                         onNavigateToDiet = { navController.navigate(Screen.DietPlan.route) },
                         onNavigateToProgress = { navController.navigate(Screen.WeeklyProgress.route) },
-                        onNavigateToProfile = { navController.navigate(Screen.Profile.route) }
+                        onNavigateToProfile = { navController.navigate(Screen.Profile.route) },
+                        onNavigateToAccessRequest = { navController.navigate(Screen.AccessRequest.route) }
+                    )
+                }
+                composable(Screen.AccessRequest.route) {
+                    AccessRequestScreen(
+                        onBack = { navController.popBackStack() }
                     )
                 }
                 composable(Screen.WorkoutPlan.route) {

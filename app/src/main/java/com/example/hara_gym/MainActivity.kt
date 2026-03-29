@@ -1,6 +1,8 @@
 package com.example.hara_gym
 
+import android.os.Build
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -17,6 +19,9 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
+        setHighRefreshRate()
+        
         enableEdgeToEdge()
         setContent {
             HaragymTheme {
@@ -27,6 +32,23 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     NavGraph(navController = navController)
                 }
+            }
+        }
+    }
+
+    private fun setHighRefreshRate() {
+        val maxRefreshRate = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            display?.supportedModes?.maxByOrNull { it.refreshRate }?.refreshRate ?: 60f
+        } else {
+            val windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
+            @Suppress("DEPRECATION")
+            val display = windowManager.defaultDisplay
+            display.supportedModes.maxByOrNull { it.refreshRate }?.refreshRate ?: 60f
+        }
+
+        if (maxRefreshRate > 60f) {
+            window.attributes = window.attributes.apply {
+                preferredRefreshRate = maxRefreshRate
             }
         }
     }

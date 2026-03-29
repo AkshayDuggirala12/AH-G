@@ -11,6 +11,7 @@ import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Restaurant
 import androidx.compose.material.icons.filled.ShowChart
 import androidx.compose.material.icons.filled.Upcoming
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -35,6 +36,7 @@ fun HomeScreen(
     onNavigateToDiet: () -> Unit,
     onNavigateToProgress: () -> Unit,
     onNavigateToProfile: () -> Unit,
+    onNavigateToAccessRequest: () -> Unit,
     authViewModel: AuthViewModel = hiltViewModel(),
     clientViewModel: ClientViewModel = hiltViewModel()
 ) {
@@ -45,7 +47,7 @@ fun HomeScreen(
             TopAppBar(
                 title = { 
                     Text(
-                        "HARA-GYM", 
+                        "Rajakshari",
                         fontWeight = FontWeight.ExtraBold,
                         letterSpacing = 1.sp
                     ) 
@@ -90,46 +92,127 @@ fun HomeScreen(
                 }
             }
 
-            item {
-                HomeCard(
-                    title = "WORKOUT PLAN",
-                    subtitle = when (val state = clientState) {
-                        is ClientUiState.Success -> state.plans.workoutPlan?.name ?: "No active workout plan"
-                        is ClientUiState.Loading -> "Loading plan..."
-                        else -> "View your assigned routine"
-                    },
-                    icon = Icons.Default.Upcoming,
-                    onClick = onNavigateToWorkout,
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    contentColor = MaterialTheme.colorScheme.onPrimaryContainer
-                )
-            }
+            when (val state = clientState) {
+                is ClientUiState.NoPlanAssigned -> {
+                    item {
+                        AccessRequestCard(onNavigateToAccessRequest)
+                    }
+                }
+                is ClientUiState.AccessRequestPending -> {
+                    item {
+                        PendingRequestCard(state.request.status)
+                    }
+                }
+                is ClientUiState.Success -> {
+                    item {
+                        HomeCard(
+                            title = "WORKOUT PLAN",
+                            subtitle = state.plans.workoutPlan?.name ?: "No active workout plan",
+                            icon = Icons.Default.Upcoming,
+                            onClick = onNavigateToWorkout,
+                            containerColor = MaterialTheme.colorScheme.primaryContainer,
+                            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                        )
+                    }
 
-            item {
-                HomeCard(
-                    title = "DIET PLAN",
-                    subtitle = when (val state = clientState) {
-                        is ClientUiState.Success -> state.plans.dietPlan?.name ?: "No active diet plan"
-                        is ClientUiState.Loading -> "Loading plan..."
-                        else -> "Fuel your body correctly"
-                    },
-                    icon = Icons.Default.Restaurant,
-                    onClick = onNavigateToDiet
-                )
-            }
+                    item {
+                        HomeCard(
+                            title = "DIET PLAN",
+                            subtitle = state.plans.dietPlan?.name ?: "No active diet plan",
+                            icon = Icons.Default.Restaurant,
+                            onClick = onNavigateToDiet
+                        )
+                    }
 
-            item {
-                HomeCard(
-                    title = "PROGRESS TRACKER",
-                    subtitle = "Check your weekly stats",
-                    icon = Icons.Default.ShowChart,
-                    onClick = onNavigateToProgress
-                )
+                    item {
+                        HomeCard(
+                            title = "PROGRESS TRACKER",
+                            subtitle = "Check your weekly stats",
+                            icon = Icons.Default.ShowChart,
+                            onClick = onNavigateToProgress
+                        )
+                    }
+                }
+                is ClientUiState.Loading -> {
+                    item {
+                        Box(modifier = Modifier.fillMaxWidth().padding(24.dp), contentAlignment = Alignment.Center) {
+                            CircularProgressIndicator()
+                        }
+                    }
+                }
+                is ClientUiState.Error -> {
+                    item {
+                        Text(text = state.message, color = MaterialTheme.colorScheme.error)
+                        Button(onClick = { clientViewModel.checkStatus() }) {
+                            Text("Retry")
+                        }
+                    }
+                }
             }
             
             item {
                 Spacer(modifier = Modifier.height(24.dp))
                 QuoteCard()
+            }
+        }
+    }
+}
+
+@Composable
+fun AccessRequestCard(onClick: () -> Unit) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onClick() },
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer
+        )
+    ) {
+        Column(modifier = Modifier.padding(24.dp)) {
+            Text(
+                text = "NO PLAN ASSIGNED",
+                fontWeight = FontWeight.Black,
+                fontSize = 18.sp
+            )
+            Text(
+                text = "You don't have an active workout or diet plan yet. Click here to submit an access request to our trainers.",
+                fontSize = 14.sp,
+                modifier = Modifier.padding(top = 8.dp)
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Button(onClick = onClick) {
+                Text("REQUEST ACCESS")
+            }
+        }
+    }
+}
+
+@Composable
+fun PendingRequestCard(status: String) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.secondaryContainer
+        )
+    ) {
+        Row(
+            modifier = Modifier.padding(24.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            Icon(Icons.Default.Info, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+            Column {
+                Text(
+                    text = "REQUEST PENDING",
+                    fontWeight = FontWeight.Black,
+                    fontSize = 18.sp
+                )
+                Text(
+                    text = "Your access request is currently being reviewed by our trainers. Please check back soon!",
+                    fontSize = 14.sp
+                )
             }
         }
     }
