@@ -17,7 +17,9 @@ data class ExerciseProgressStatusDto(
     @SerializedName("exercise_id") val exerciseId: Int,
     @SerializedName("exercise_name") val exerciseName: String,
     @SerializedName("is_completed") val isCompleted: Boolean,
-    @SerializedName("completed_at") val completedAt: String?
+    @SerializedName("completed_at") val completedAt: String?,
+    @SerializedName("gif_url") val gifUrl: String = "",
+    val instructions: String = ""
 )
 
 data class WorkoutDayProgressDto(

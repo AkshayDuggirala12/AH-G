@@ -3,8 +3,8 @@ package com.example.hara_gym.data.model
 import com.google.gson.annotations.SerializedName
 
 data class MyPlansResponse(
-    @SerializedName("workout_plan") val workoutPlan: WorkoutPlanDto?,
-    @SerializedName("diet_plan") val dietPlan: DietPlanDto?
+    @SerializedName("workout_plan") val workoutPlan: WorkoutPlanDto? = null,
+    @SerializedName("diet_plan") val dietPlan: DietPlanDto? = null
 )
 
 data class ClientAccessRequestBody(
@@ -17,7 +17,7 @@ data class ClientAccessRequestBody(
 
 data class ClientAccessRequestDto(
     val id: Int,
-    @SerializedName("client_id") val clientId: Int,
+    @SerializedName("user_id") val userId: Int,
     val age: Int,
     @SerializedName("weight_kg") val weightKg: String,
     @SerializedName("height_cm") val heightCm: String,

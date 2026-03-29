@@ -2,10 +2,12 @@ package com.example.hara_gym.data.model
 
 import com.google.gson.annotations.SerializedName
 
-data class RegisterRequest(
+data class UserDto(
+    val id: Int,
     val name: String,
     val email: String,
-    val password: String
+    @SerializedName("is_active") val isActive: Boolean,
+    @SerializedName("is_admin") val isAdmin: Boolean
 )
 
 data class LoginRequest(
@@ -13,14 +15,14 @@ data class LoginRequest(
     val password: String
 )
 
-data class UserDto(
-    val id: Int,
+data class RegisterRequest(
     val name: String,
-    val email: String
+    val email: String,
+    val password: String
 )
 
 data class LoginResponse(
     @SerializedName("access_token") val accessToken: String,
-    @SerializedName("token_type") val tokenType: String,
+    @SerializedName("token_type") val tokenType: String = "bearer",
     val user: UserDto
 )

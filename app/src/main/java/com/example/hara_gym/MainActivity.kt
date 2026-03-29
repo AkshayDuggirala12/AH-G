@@ -20,6 +20,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         
+        // This unlocks 120Hz/144Hz for all your Compose screens
         setHighRefreshRate()
         
         enableEdgeToEdge()

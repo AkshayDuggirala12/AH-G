@@ -7,13 +7,13 @@ data class DietMealDto(
     @SerializedName("meal_name") val mealName: String,
     @SerializedName("meal_time") val mealTime: String,
     val foods: String,
-    val notes: String?
+    val notes: String = ""
 )
 
 data class DietPlanDto(
     val id: Int,
     val name: String,
-    val description: String?,
+    val description: String = "",
     @SerializedName("is_active") val isActive: Boolean,
     val meals: List<DietMealDto>
 )
